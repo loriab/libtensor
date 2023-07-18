@@ -58,6 +58,8 @@ def configure(build_dir, source_dir, install_dir, build_type=None, features=[],
     if "mkl" in features:
         # Use sequential Intel MKL version
         args += ["-DBLA_VENDOR=Intel10_64lp_seq"]
+    if "netlib" in features:
+        args += ["-DBLA_VENDOR=Generic"]
 
     subprocess.check_call(args + [source_dir], cwd=build_dir)
 
@@ -127,7 +129,7 @@ def main():
                         help="The build type to configure.")
     parser.add_argument("--features", default=[],
                         nargs="+", help="Select optional features for build.",
-                        choices=["libxm", "mkl", "mpi"])
+                        choices=["libxm", "mkl", "mpi", "netlib"])
     parser.add_argument("--documentation", default=False, action="store_true",
                         help="Build documentation using doxygen.")
 
