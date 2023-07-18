@@ -59,12 +59,15 @@ elseif(BLA_VENDOR STREQUAL "Intel10_64lp_seq" OR BLA_VENDOR STREQUAL "Intel10_64
 	get_filename_component(BLAS_DIR ${BLAS_LIB} DIRECTORY)
 	find_file(MKLINCLUDE mkl.h HINTS "${BLAS_DIR}/../include" "${BLAS_DIR}/../../include")
 	get_filename_component(BLAS_INCLUDE_DIR ${MKLINCLUDE} DIRECTORY)
+elseif(BLA_VENDOR STREQUAL "Generic")
+	find_library(CBLAS_LIBRARY NAMES cblas)
 else()
 	# TODO If more blas vendors are supported do not forget to add them to
 	#      libtensor/linalg/BlasSequential.C and libtensor/CMakeLists.txt
 	message(WARNING "BLAS vendor ${BLA_VENDOR} has not been tested with libtensorlight")
 endif()
-set(BLAS_LAPACK_LIBRARIES ${BLAS_LIBRARIES})
+set(BLAS_LAPACK_LIBRARIES ${BLAS_LIBRARIES} ${CBLAS_LIBRARY})
+message("BLAS_LAPACK_LIBRARIES ${BLAS_LAPACK_LIBRARIES}")
 
 ##########################################################################
 # Libxm dependencies
